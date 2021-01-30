@@ -11,7 +11,6 @@
         rel="stylesheet">
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
-</head>
 
 <body>
     <!--Header and Menu Section-->
@@ -32,7 +31,7 @@
             <h3>Booking Flights</h3>
             <div class="input-group">
                 <label for="">Flying From</label>
-                <input class="inp-style" type="text" name="" placeholder="Dhake, Bangladesh">
+                <input class="inp-style" type="text" name="" placeholder="Dhaka, Bangladesh">
             </div>
             <div class="input-group">
                 <label for="">Flying To</label>
@@ -41,7 +40,7 @@
             <div class="inputs">
                 <div class="input-group">
                     <label" for="">Departure</label>
-                    <input class="inp-style" type="date" name="">
+                        <input class="inp-style" type="date" name="">
                 </div>
                 <div class="input-group">
                     <label for="">Return</label>
@@ -51,20 +50,23 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="firstClassInput" class="inp-style inp-width" type="number" name="" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p>+ -</p>
+                    <button onclick="handleTicketCount(false, 150, 'firstClassInput')">-</button>
+                    <button onclick="handleTicketCount(true, 150, 'firstClassInput')">+</button>
+
                 </div>
             </div>
-            
+
             <div class="input-group f-class">
                 <div>
                     <label for="">Economy ($100)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <input id="economy-input" class="inp-style inp-width" type="number" name="" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <p> <span>+</span> <span>-</span> </p>
+                    <button onclick="handleTicketCount(false, 100, 'economy-input')">-</button>
+                    <button onclick="handleTicketCount(true, 100, 'economy-input')">+</button>
                 </div>
             </div>
             <div class="calculations">
@@ -73,7 +75,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p>$ <span id="subtotal">00</span></p>
                     </div>
                 </div>
 
@@ -82,7 +84,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p>$ <span id="vat">00</span></p>
                     </div>
                 </div>
                 <hr>
@@ -91,7 +93,7 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p>$<span id="total">00</span></p>
                     </div>
                 </div>
             </div>
@@ -100,11 +102,39 @@
 
         <div class="booking-content">
             <h1>discover <br> around the world</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicingelit. Provident voluptatibus quam fuga laborumalias veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise voluptatibus quam</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicingelit. Provident voluptatibus quam fuga laborumalias
+                veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise
+                voluptatibus quam</p>
         </div>
-    </section>
+        </section>
 
-    <!--Thank You-->
+        <script>
+            function handleTicketCount(isIncrease, price, input) {
+                const ticketInput = document.getElementById(input);
+                const ticketNum = parseInt(ticketInput.value);
+                let ticketNewNum = 0;
+                if (isIncrease == true) {
+                    ticketNewNum = ticketNum + 1;
+                }
+                if (isIncrease == false && ticketNum > 0) {
+                    ticketNewNum = ticketNum - 1;
+                }
+                ticketInput.value = ticketNewNum;
+                const subTotal = document.getElementById("subtotal");
+                const subTotalNum = parseInt(subTotal.innerText);
+                const subTotalNew = ticketNewNum * price;
+                subTotal.innerText = subTotalNew;
+                const vat = document.getElementById("vat");
+                const vatNum = parseFloat(vat.innerText);
+                const vatNew = subTotalNew * .1;
+                vat.innerText = vatNew;
+                const total = document.getElementById("total");
+                // const totalNew = parseFloat(total.innerText);
+                total.innerText = subTotalNew + vatNew;
+            };
+            const economy = document.getElementById("economy-input").value;
+            console.log(economy)
+        </script>
 </body>
 
 </html>
