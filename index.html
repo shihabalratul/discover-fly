@@ -26,7 +26,7 @@
     </header>
 
     <!--Booking Section-->
-    <main class="main-content container">
+    <main id="content" class="main-content container">
         <div class="booking-form">
             <h3>Booking Flights</h3>
             <div class="input-group">
@@ -97,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button id="book" class="btn-style">Book Now</button>
         </div>
 
         <div class="booking-content">
@@ -106,42 +106,82 @@
                 veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise
                 voluptatibus quam</p>
         </div>
-        </section>
 
-        <script>
-            function handleTicketCount(isIncrease, ticketClass) {
-                const ticketNum = getInputValue(ticketClass+"-input");
-                let ticketNewNum = ticketNum;
-                if (isIncrease == true) {
-                    ticketNewNum = ticketNum + 1;
-                }
-                if (isIncrease == false && ticketNum > 0) {
-                    ticketNewNum = ticketNum - 1;
-                }
-                document.getElementById(ticketClass + "-input").value = ticketNewNum;
-                totalCost();
-            };
-              
-            function totalCost(){
-                const economyInt = getInputValue("economy-input");
-                console.log(economyInt)
-                const firstClassInt = getInputValue("firstClass-input");
-                console.log(economyInt)
-                const subTotal = economyInt * 100 + firstClassInt * 150;
-                document.getElementById("subtotal").innerText = subTotal;
-                const vatNum = getInputValue("vat");
-                const vatNew = subTotal * .1;
-                document.getElementById("vat").innerText = vatNew;
-                document.getElementById("total").innerText = subTotal + vatNew;
-            }   
+    </main>
+    <!-- SECOND PAGE -->
+    <section id="second-page">
+        <h1>Ticket Purchased Successfully.</h1>
+        <h2>Your tickets:</h2>
 
-            function getInputValue(ticketClass){
-                const Input = document.getElementById(ticketClass);
-                const inputInt = parseInt(Input.value);
-                return inputInt;
+        <table>
+            <tr>
+                <td>First-Class Ticket:</td>
+                <td id="firstClassNumber" class="left-align"> 0</td>
+            </tr>
+            <tr>
+                <td>Economic-Class Ticket:</td>
+                <td id="economicNumber" class="left-align"> 0</td>
+            </tr>
+            <tr>
+                <td>
+                    <h2>Total Cost:</h2>
+                </td>
+                <td id="totalNumber" class="left-align">$0</td>
+            </tr>
+        </table>
+        <p class="center-align">Thank You.</p>
+    </section>
+    <script>
+        // ADD OR REMOVE TICKET.
+        function handleTicketCount(isIncrease, ticketClass) {
+            const ticketNum = getInputValue(ticketClass + "-input");
+            let ticketNewNum = ticketNum;
+            if (isIncrease == true) {
+                ticketNewNum = ticketNum + 1;
             }
-            
-        </script>
+            if (isIncrease == false && ticketNum > 0) {
+                ticketNewNum = ticketNum - 1;
+            }
+            document.getElementById(ticketClass + "-input").value = ticketNewNum;
+            totalCost();
+
+
+        };
+
+        // CALCULATE SUBTOTAL,VAT,TOTAL AND OUTPUT INTO STRING. 
+        function totalCost() {
+            const economyInt = getInputValue("economy-input");
+            const firstClassInt = getInputValue("firstClass-input");
+
+            const subTotal = economyInt * 100 + firstClassInt * 150;
+            document.getElementById("subtotal").innerText = subTotal;
+            const vatNum = getInputValue("vat");
+            const vatNew = subTotal * .1;
+            document.getElementById("vat").innerText = vatNew;
+            const total = subTotal + vatNew
+            document.getElementById("total").innerText = total;
+            document.getElementById("economicNumber").innerText = economyInt;
+            document.getElementById("firstClassNumber").innerText = firstClassInt;
+            document.getElementById("totalNumber").innerText = "$"+total;
+
+
+
+        }
+
+        // CONVERT STRING TYPE INPUT INTO NUMBER TYPE.
+        function getInputValue(ticketClass) {
+            const Input = document.getElementById(ticketClass);
+            const inputInt = parseInt(Input.value);
+            return inputInt;
+        }
+
+
+        //MAKING 1ST PAGE INVISIBLE AND SECOND PAGE VISIBLE.
+        document.getElementById("book").addEventListener("click", function () {
+            document.getElementById("content").style.visibility = "hidden";
+            document.getElementById("second-page").style.visibility = "visible";
+        })
+    </script>
 </body>
 
 </html>
