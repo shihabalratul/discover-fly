@@ -50,11 +50,11 @@
             <div class="input-group f-class">
                 <div>
                     <label for="">First Class ($150)</label>
-                    <input id="firstClassInput" class="inp-style inp-width" type="number" name="" value="0">
+                    <input id="firstClass-input" class="inp-style inp-width" type="number" name="" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <button onclick="handleTicketCount(false, 150, 'firstClassInput')">-</button>
-                    <button onclick="handleTicketCount(true, 150, 'firstClassInput')">+</button>
+                    <button onclick="handleTicketCount(false, 'firstClass')">-</button>
+                    <button onclick="handleTicketCount(true, 'firstClass')">+</button>
 
                 </div>
             </div>
@@ -65,8 +65,8 @@
                     <input id="economy-input" class="inp-style inp-width" type="number" name="" value="0">
                 </div>
                 <div class="plus-minus-btn">
-                    <button onclick="handleTicketCount(false, 100, 'economy-input')">-</button>
-                    <button onclick="handleTicketCount(true, 100, 'economy-input')">+</button>
+                    <button onclick="handleTicketCount(false, 'economy')">-</button>
+                    <button onclick="handleTicketCount(true, 'economy')">+</button>
                 </div>
             </div>
             <div class="calculations">
@@ -109,31 +109,38 @@
         </section>
 
         <script>
-            function handleTicketCount(isIncrease, price, input) {
-                const ticketInput = document.getElementById(input);
-                const ticketNum = parseInt(ticketInput.value);
-                let ticketNewNum = 0;
+            function handleTicketCount(isIncrease, ticketClass) {
+                const ticketNum = getInputValue(ticketClass+"-input");
+                let ticketNewNum = ticketNum;
                 if (isIncrease == true) {
                     ticketNewNum = ticketNum + 1;
                 }
                 if (isIncrease == false && ticketNum > 0) {
                     ticketNewNum = ticketNum - 1;
                 }
-                ticketInput.value = ticketNewNum;
-                const subTotal = document.getElementById("subtotal");
-                const subTotalNum = parseInt(subTotal.innerText);
-                const subTotalNew = ticketNewNum * price;
-                subTotal.innerText = subTotalNew;
-                const vat = document.getElementById("vat");
-                const vatNum = parseFloat(vat.innerText);
-                const vatNew = subTotalNew * .1;
-                vat.innerText = vatNew;
-                const total = document.getElementById("total");
-                // const totalNew = parseFloat(total.innerText);
-                total.innerText = subTotalNew + vatNew;
+                document.getElementById(ticketClass + "-input").value = ticketNewNum;
+                totalCost();
             };
-            const economy = document.getElementById("economy-input").value;
-            console.log(economy)
+              
+            function totalCost(){
+                const economyInt = getInputValue("economy-input");
+                console.log(economyInt)
+                const firstClassInt = getInputValue("firstClass-input");
+                console.log(economyInt)
+                const subTotal = economyInt * 100 + firstClassInt * 150;
+                document.getElementById("subtotal").innerText = subTotal;
+                const vatNum = getInputValue("vat");
+                const vatNew = subTotal * .1;
+                document.getElementById("vat").innerText = vatNew;
+                document.getElementById("total").innerText = subTotal + vatNew;
+            }   
+
+            function getInputValue(ticketClass){
+                const Input = document.getElementById(ticketClass);
+                const inputInt = parseInt(Input.value);
+                return inputInt;
+            }
+            
         </script>
 </body>
 
